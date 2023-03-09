@@ -21,9 +21,31 @@ function TreeFactory(array) {
     return currentNode;
   }
   function deleteNode(value, currentNode = root) {
-    
+    if(currentNode === null) {return currentNode}
+    else if(value < currentNode.data) {currentNode.left = deleteNode(value, currentNode.left)}
+    else if(value >  currentNode.data) {currentNode.right = deleteNode(value, currentNode.right)}
+    else {
+      if(currentNode.left === null) {return currentNode.right}
+      else if(currentNode.right === null) {return currentNode.left}
+      else {
+        const newValue = minValue(currentNode.right);
+        deleteNode(newValue, currentNode);
+        currentNode.data = newValue;
+      }
+      return currentNode;
+    }
   }
-  return {root, insertNode};
+ 
+  function minValue(currentNode = root) {
+    if(currentNode.left === null)
+    {
+      return currentNode.data;
+    }
+    else {
+      return minValue(currentNode.left);
+    }
+  }
+  return {root, insertNode, deleteNode};
 }
 
 export{TreeFactory};
