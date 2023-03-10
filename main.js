@@ -3,6 +3,7 @@ import {TreeFactory} from './modules/tree.js';
 const newTree = TreeFactory([8, 1, 5, 3, 8, 2, 4, 2, 10, 17]);
 newTree.insertNode(9);
 newTree.deleteNode(3);
+console.log(newTree.find(10));
 
 
 
