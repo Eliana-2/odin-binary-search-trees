@@ -54,7 +54,20 @@ function TreeFactory(array) {
     else if(value > currentNode.data) {return find(value, currentNode.right)}
     else {return currentNode}
   }
-  return {root, insertNode, deleteNode, find};
+
+  function levelOrder(queue = [], currentNode = root, levelArray = []) {
+    if(currentNode !== null) {
+      queue.push(currentNode.left);
+      queue.push(currentNode.right);
+      levelArray.push(currentNode);
+    }
+    else if(queue.length === 0) {
+      return levelArray;
+    }
+    const nextNode = queue.shift();
+    return levelOrder(queue, nextNode, levelArray);
+    }
+  return {root, insertNode, deleteNode, find, levelOrder}
 }
 
 export{TreeFactory};
