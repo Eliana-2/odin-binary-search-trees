@@ -6,6 +6,9 @@ newTree.deleteNode(3);
 console.log(newTree.find(10));
 console.log(newTree.levelOrder())
 console.log(newTree.preorder());
+console.log(newTree.inorder());
+const arr = [];
+console.log(...arr);
 
 
 

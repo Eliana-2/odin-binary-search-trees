@@ -81,7 +81,23 @@ function TreeFactory(array) {
     return preorder(stack, nextNode, preorderArray);
   }
 
-  return {root, insertNode, deleteNode, find, levelOrder, preorder}
+  function inorder(currentNode = root, inorderArray = []) {
+    if(currentNode !== null) {
+      inorderArray.push(...inorder(currentNode.left));
+      inorderArray.push(currentNode);
+      inorderArray.push(...inorder(currentNode.right));
+    }
+    return inorderArray;
+  }
+
+  function postorder(stack = [], currentNode = root, postorderArray = []) {
+    if(currentNode !== null) {
+    }
+    const nextNode = stack.pop();
+    return postorder(stack, nextNode, postorderArray);
+  }
+
+  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder}
 }
 
 export{TreeFactory};
