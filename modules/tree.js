@@ -1,8 +1,12 @@
 import {NodeFactory} from './node.js';
 
 function TreeFactory(array) {
+  let root = null;
+  function getRoot() {return root};
+  function setRoot(newRoot) {root = newRoot};
+
   const sortedArray = [...new Set(array)].sort((a, b) => {return a -b});
-  const root = buildTree(sortedArray);
+  setRoot(buildTree(sortedArray));
 
   function buildTree(treeArray) {
     if(treeArray.length === 0) {return null}
@@ -14,7 +18,7 @@ function TreeFactory(array) {
     }
   }
 
-  function insertNode(value, currentNode = root) {
+  function insertNode(value, currentNode = getRoot()) {
     if(currentNode === null) {return NodeFactory(value);}
 
     if (value < currentNode.data) {currentNode.left = insertNode(value, currentNode.left)}
@@ -23,7 +27,7 @@ function TreeFactory(array) {
     return currentNode;
   }
 
-  function minValue(currentNode = root) {
+  function minValue(currentNode = getRoot()) {
     if(currentNode.left === null)
     {
       return currentNode.data;
@@ -33,7 +37,7 @@ function TreeFactory(array) {
     }
   }
 
-  function deleteNode(value, currentNode = root) {
+  function deleteNode(value, currentNode = getRoot()) {
     if(currentNode === null) {return currentNode}
     else if(value < currentNode.data) {currentNode.left = deleteNode(value, currentNode.left)}
     else if(value >  currentNode.data) {currentNode.right = deleteNode(value, currentNode.right)}
@@ -48,18 +52,18 @@ function TreeFactory(array) {
     }
   }
 
-  function find(value, currentNode = root) {
+  function find(value, currentNode = getRoot()) {
     if(currentNode === null) {return currentNode}
     else if(value < currentNode.data) {return find(value, currentNode. left)}
     else if(value > currentNode.data) {return find(value, currentNode.right)}
     else {return currentNode}
   }
 
-  function levelOrder(queue = [], currentNode = root, levelArray = []) {
+  function levelOrder(queue = [], currentNode = getRoot(), levelArray = []) {
     if(currentNode !== null) {
       queue.push(currentNode.left);
       queue.push(currentNode.right);
-      levelArray.push(currentNode);
+      levelArray.push(currentNode.data);
     }
     else if(queue.length === 0) {
       return levelArray;
@@ -68,11 +72,11 @@ function TreeFactory(array) {
     return levelOrder(queue, nextNode, levelArray);
   }
 
-  function preorder(stack = [], currentNode = root, preorderArray = []) {
+  function preorder(stack = [], currentNode = getRoot(), preorderArray = []) {
     if(currentNode !== null) {
       stack.push(currentNode.right);
       stack.push(currentNode.left);
-      preorderArray.push(currentNode);
+      preorderArray.push(currentNode.data);
     }
     else if(stack.length === 0) {
       return preorderArray;
@@ -81,25 +85,25 @@ function TreeFactory(array) {
     return preorder(stack, nextNode, preorderArray);
   }
 
-  function inorder(currentNode = root, inorderArray = []) {
+  function inorder(currentNode = getRoot(), inorderArray = []) {
     if(currentNode !== null) {
       inorderArray.push(...inorder(currentNode.left));
-      inorderArray.push(currentNode);
+      inorderArray.push(currentNode.data);
       inorderArray.push(...inorder(currentNode.right));
     }
     return inorderArray;
   }
 
-  function postorder(currentNode = root, postorderArray = []) {
+  function postorder(currentNode = getRoot(), postorderArray = []) {
     if(currentNode !== null) {
       postorderArray.push(...postorder(currentNode.left));
       postorderArray.push(...postorder(currentNode.right));
-      postorderArray.push(currentNode);
+      postorderArray.push(currentNode.data);
     }
     return postorderArray;
   }
 
-  function height(currentNode = root, heightCounter = -1) {
+  function height(currentNode = getRoot(), heightCounter = -1) {
     if(currentNode !== null) {
       heightCounter++;
       const leftHeight = height(currentNode.left, heightCounter);
@@ -109,14 +113,14 @@ function TreeFactory(array) {
     return heightCounter;
   }
 
-  function depth(node, currentNode = root, depthCounter = 0) {
+  function depth(node, currentNode = getRoot(), depthCounter = 0) {
     if(currentNode === null) {return}
     else if(node.data > currentNode.data) {return depth(node, currentNode.right, ++depthCounter)}
     else if(node.data < currentNode.data) {return depth(node, currentNode.left, ++depthCounter)}
     else {return depthCounter};
   }
 
-  function isBalanced(currentNode = root) {
+  function isBalanced(currentNode = getRoot()) {
     if(currentNode !== null) {
       if(Math.abs(height(currentNode.left) - height(currentNode.right)) > 1) {
         return false;
@@ -128,7 +132,13 @@ function TreeFactory(array) {
     return true;
   }
 
-  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced}
+  function rebalance() {
+    const sortedArray = inorder();
+    const newRoot = buildTree(sortedArray);
+    setRoot(newRoot);
+  }
+
+  return {getRoot, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced, rebalance}
 }
 
 export{TreeFactory};

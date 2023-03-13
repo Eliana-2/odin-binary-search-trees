@@ -1,8 +1,5 @@
 import './style.css';
 import {TreeFactory} from './modules/tree.js';
-const newTree = TreeFactory([8, 1, 5, 3, 8, 2, 4, 2, 10, 17]);
-
-
 
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node.right !== null) {
@@ -14,4 +11,27 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 }
 
-prettyPrint(newTree.root);
+const newTree = TreeFactory([8, 1, 5, 3, 8, 2, 4, 2, 10, 17]);
+prettyPrint(newTree.getRoot());
+
+console.log(newTree.preorder());
+console.log(newTree.inorder());
+console.log(newTree.postorder());
+
+newTree.insertNode(101);
+newTree.insertNode(102);
+newTree.insertNode(103);
+newTree.insertNode(104);
+newTree.insertNode(105);
+prettyPrint(newTree.getRoot());
+
+console.log(newTree.isBalanced());
+
+newTree.rebalance();
+prettyPrint(newTree.getRoot());
+
+console.log(newTree.isBalanced());
+
+console.log(newTree.preorder());
+console.log(newTree.inorder());
+console.log(newTree.postorder());
