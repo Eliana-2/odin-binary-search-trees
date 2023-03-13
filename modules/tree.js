@@ -116,7 +116,19 @@ function TreeFactory(array) {
     else {return depthCounter};
   }
 
-  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth}
+  function isBalanced(currentNode = root) {
+    if(currentNode !== null) {
+      if(Math.abs(height(currentNode.left) - height(currentNode.right)) > 1) {
+        return false;
+      }
+      else {
+        return isBalanced(currentNode.left) && isBalanced(currentNode.right);
+      }
+    }
+    return true;
+  }
+
+  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth, isBalanced}
 }
 
 export{TreeFactory};
