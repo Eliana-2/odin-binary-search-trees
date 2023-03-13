@@ -8,6 +8,8 @@ console.log(newTree.levelOrder())
 console.log(newTree.preorder());
 console.log(newTree.inorder());
 console.log(newTree.postorder());
+console.log(newTree.height());
+console.log(newTree.depth(newTree.root.right.left.right))
 
 
 

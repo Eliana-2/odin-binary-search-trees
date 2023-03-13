@@ -99,7 +99,24 @@ function TreeFactory(array) {
     return postorderArray;
   }
 
-  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder}
+  function height(currentNode = root, heightCounter = -1) {
+    if(currentNode !== null) {
+      heightCounter++;
+      const leftHeight = height(currentNode.left, heightCounter);
+      const rightHeight = height(currentNode.right, heightCounter)
+      heightCounter = (leftHeight > rightHeight) ? leftHeight : rightHeight;
+    }
+    return heightCounter;
+  }
+
+  function depth(node, currentNode = root, depthCounter = 0) {
+    if(currentNode === null) {return}
+    else if(node.data > currentNode.data) {return depth(node, currentNode.right, ++depthCounter)}
+    else if(node.data < currentNode.data) {return depth(node, currentNode.left, ++depthCounter)}
+    else {return depthCounter};
+  }
+
+  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder, height, depth}
 }
 
 export{TreeFactory};
