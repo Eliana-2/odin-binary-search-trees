@@ -90,14 +90,16 @@ function TreeFactory(array) {
     return inorderArray;
   }
 
-  function postorder(stack = [], currentNode = root, postorderArray = []) {
+  function postorder(currentNode = root, postorderArray = []) {
     if(currentNode !== null) {
+      postorderArray.push(...postorder(currentNode.left));
+      postorderArray.push(...postorder(currentNode.right));
+      postorderArray.push(currentNode);
     }
-    const nextNode = stack.pop();
-    return postorder(stack, nextNode, postorderArray);
+    return postorderArray;
   }
 
-  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder}
+  return {root, insertNode, deleteNode, find, levelOrder, preorder, inorder, postorder}
 }
 
 export{TreeFactory};
